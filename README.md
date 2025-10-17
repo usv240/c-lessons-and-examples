@@ -5,7 +5,7 @@ Learn modern C from first principles to systems-level topics with runnable code.
 ## What this repo contains
 
 - `main.c` — a menu-driven examples harness you can compile and run.
-- `docs/lesson01.md` … `docs/lesson09.md` — focused, GitHub-friendly lessons you can read in order or dip into as needed.
+- `notes/lesson01.md` … `notes/lesson09.md` — focused, GitHub-friendly lessons you can read in order or dip into as needed.
 - `notes_` (and/or `notes/`) — consolidated notes if you prefer one long read.
 
 ## Quick start (Windows, PowerShell)
@@ -27,15 +27,15 @@ Tip: You can also use the VS Code build task named "C/C++: gcc.exe build active 
 
 ## Read the lessons
 
-- [Lesson 01: Getting started with C](./docs/lesson01.md)
-- [Lesson 02: Types, variables, and operators](./docs/lesson02.md)
-- [Lesson 03: Control flow (if/else, loops, switch)](./docs/lesson03.md)
-- [Lesson 04: Functions, scope, and the call stack](./docs/lesson04.md)
-- [Lesson 05: Arrays and pointers](./docs/lesson05.md)
-- [Lesson 06: Strings and memory](./docs/lesson06.md)
-- [Lesson 07: Dynamic memory management](./docs/lesson07.md)
-- [Lesson 08: Structures and memory layout](./docs/lesson08.md)
-- [Lesson 09: Structures (recap) and prep for file I/O](./docs/lesson09.md)
+- [Lesson 01: Getting started with C](./notes/lesson01.md)
+- [Lesson 02: Types, variables, and operators](./notes/lesson02.md)
+- [Lesson 03: Control flow (if/else, loops, switch)](./notes/lesson03.md)
+- [Lesson 04: Functions, scope, and the call stack](./notes/lesson04.md)
+- [Lesson 05: Arrays and pointers](./notes/lesson05.md)
+- [Lesson 06: Strings and memory](./notes/lesson06.md)
+- [Lesson 07: Dynamic memory management](./notes/lesson07.md)
+- [Lesson 08: Structures and memory layout](./notes/lesson08.md)
+- [Lesson 09: Structures (recap) and prep for file I/O](./notes/lesson09.md)
 
 If you like a single document, see [notes_](./notes_) or the [notes/](./notes/) directory.
 
