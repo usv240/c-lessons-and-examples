@@ -5,8 +5,9 @@ Learn modern C from first principles to systems-level topics with runnable code.
 ## What this repo contains
 
 - `main.c` — a menu-driven examples harness you can compile and run.
-- `notes/lesson01.md` … `notes/lesson09.md` — focused, GitHub-friendly lessons you can read in order or dip into as needed.
+- `notes/lesson01.md` … `notes/lesson13.md` — focused, GitHub-friendly lessons you can read in order or dip into as needed.
 - `notes_` (and/or `notes/`) — consolidated notes if you prefer one long read.
+- `hello.c` — a tiny program used in the debugging lesson to practice gdb/LLDB.
 
 ## Quick start (Windows, PowerShell)
 
@@ -27,17 +28,19 @@ Tip: You can also use the VS Code build task named "C/C++: gcc.exe build active 
 
 ## Read the lessons
 
-- [Lesson 01: Getting started with C](./notes/lesson01.md)
-- [Lesson 02: Types, variables, and operators](./notes/lesson02.md)
-- [Lesson 03: Control flow (if/else, loops, switch)](./notes/lesson03.md)
-- [Lesson 04: Functions, scope, and the call stack](./notes/lesson04.md)
-- [Lesson 05: Arrays and pointers](./notes/lesson05.md)
-- [Lesson 06: Strings and memory](./notes/lesson06.md)
+- [Lesson 01: Understanding what C is & setting up](./notes/lesson01.md)
+- [Lesson 02: Variables, data types & operators](./notes/lesson02.md)
+- [Lesson 03: Control flow & loops](./notes/lesson03.md)
+- [Lesson 04: Functions & scope](./notes/lesson04.md)
+- [Lesson 05: Arrays & pointers](./notes/lesson05.md)
+- [Lesson 06: Strings & memory](./notes/lesson06.md)
 - [Lesson 07: Dynamic memory management](./notes/lesson07.md)
-- [Lesson 08: Structures and memory layout](./notes/lesson08.md)
-- [Lesson 09: Structures (recap) and prep for file I/O](./notes/lesson09.md)
-
-If you like a single document, see [notes_](./notes_) or the [notes/](./notes/) directory.
+- [Lesson 08: Structures & memory layout](./notes/lesson08.md)
+- [Lesson 09: File I/O & system calls](./notes/lesson09.md)
+- [Lesson 10: Processes & threads](./notes/lesson10.md)
+- [Lesson 11: Profiling & debugging tools](./notes/lesson11.md)
+- [Lesson 12: OS internals & virtual memory](./notes/lesson12.md)
+- [Lesson 13: Advanced concurrency & synchronization](./notes/lesson13.md)
 
 ## How to use the examples harness
 
