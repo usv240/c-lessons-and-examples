@@ -5,9 +5,10 @@ Learn modern C from first principles to systems-level topics with runnable code.
 ## What this repo contains
 
 - `main.c` — a menu-driven examples harness you can compile and run.
-- `notes/lesson01.md` … `notes/lesson13.md` — focused, GitHub-friendly lessons you can read in order or dip into as needed.
+- `notes/lesson01.md` … `notes/lesson17.md` — focused, GitHub-friendly lessons you can read in order or dip into as needed.
 - `notes_` (and/or `notes/`) — consolidated notes if you prefer one long read.
 - `hello.c` — a tiny program used in the debugging lesson to practice gdb/LLDB.
+- [`notes/GDB commands.md`](./notes/GDB%20commands.md) — a concise GDB commands cheat sheet.
 
 ## Quick start (Windows, PowerShell)
 
@@ -41,6 +42,10 @@ Tip: You can also use the VS Code build task named "C/C++: gcc.exe build active 
 - [Lesson 11: Profiling & debugging tools](./notes/lesson11.md)
 - [Lesson 12: OS internals & virtual memory](./notes/lesson12.md)
 - [Lesson 13: Advanced concurrency & synchronization](./notes/lesson13.md)
+- [Lesson 14: Performance optimization (cache, memory layout, SIMD)](./notes/lesson14.md)
+- [Lesson 15: Apple Silicon Architecture Deep Dive](./notes/lesson15.md)
+- [Lesson 16: Media Systems & HLS Internals](./notes/lesson16.md)
+- [Lesson 17: Capstone Project — Mini Streaming Engine in C](./notes/lesson17.md)
 
 ## How to use the examples harness
 
