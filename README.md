@@ -5,7 +5,7 @@ Learn modern C from first principles to systems-level topics with runnable code.
 ## What this repo contains
 
 - `main.c` — a menu-driven examples harness you can compile and run.
-- `notes/lesson01.md` … `notes/lesson17.md` — focused, GitHub-friendly lessons you can read in order or dip into as needed.
+- `notes/lesson01.md` … `notes/lesson25.md` — focused, GitHub-friendly lessons you can read in order or dip into as needed.
 - `notes_` (and/or `notes/`) — consolidated notes if you prefer one long read.
 - `hello.c` — a tiny program used in the debugging lesson to practice gdb/LLDB.
 - [`notes/GDB commands.md`](./notes/GDB%20commands.md) — a concise GDB commands cheat sheet.
@@ -46,6 +46,14 @@ Tip: You can also use the VS Code build task named "C/C++: gcc.exe build active 
 - [Lesson 15: Apple Silicon Architecture Deep Dive](./notes/lesson15.md)
 - [Lesson 16: Media Systems & HLS Internals](./notes/lesson16.md)
 - [Lesson 17: Capstone Project — Mini Streaming Engine in C](./notes/lesson17.md)
+- [Lesson 18: Compiler Internals & Optimization Strategies](./notes/lesson18.md)
+- [Lesson 19: Analyzing System Traces & Performance Logs](./notes/lesson19.md)
+- [Lesson 20: Performance Metrics, Dashboards & Trending](./notes/lesson20.md)
+- [Lesson 21: Building Custom Profiling & Measurement Tools](./notes/lesson21.md)
+- [Lesson 22: Kernel Development Concepts](./notes/lesson22.md)
+- [Lesson 23: System Design Interview Framework](./notes/lesson23.md)
+- [Lesson 24: Apple OS Performance Case Studies](./notes/lesson24.md)
+- [Lesson 25: Mock Interviews & Communication Patterns](./notes/lesson25.md)
 
 ## How to use the examples harness
 

@@ -1,0 +1,373 @@
+C notes — explanations and runnable examples
+
+Compilation pipeline (how C runs)
+- gcc -E file.c > file.i — preprocess (expand includes/macros)
+- gcc -S file.c — compile (C → assembly, .s)
+- gcc -c file.c — assemble (→ object, .o)
+- objdump -d file.o — disassemble to inspect instructions
+- gcc file.o -o app — link to final executable
+
+Lesson 1 — How C runs on your machine
+- What C is: compiled, close-to-metal, no runtime/GC; you manage memory and performance.
+- Compilation pipeline listed above.
+- Anatomy of a C program: #include, int main(), printf, return 0.
+- Mental model: OS loads code, sets up stack/heap, jumps to main; returns status to OS.
+- Habit: always compile with -Wall -Wextra -pedantic (and -std=c99 or newer).
+
+Lesson 2 — Variables, types, format specifiers, operators
+- A variable is a labeled memory region; &x gets address; %p prints it.
+- Typical sizes (64-bit): char 1B, short 2B, int 4B, long 8B, float 4B, double 8B.
+- printf/scanf: %d int, %u unsigned, %ld long, %f float, %lf double, %c char, %s string, %p pointer.
+- Operators: arithmetic, relational, logical, assignment combos, bitwise, ++/-- (pre vs post).
+
+Lesson 3 — Control flow and loops
+- if/else-if/else; switch with break (integral/enum); while, do-while, for.
+- Loop controls: break, continue, return. Branches become jumps; prediction matters.
+
+Lesson 4 — Functions, scope, and the call stack
+- Prototypes vs definitions vs calls; put prototypes in headers.
+- Call stack: parameters, locals, return address; each call creates a frame.
+- Passing: by value vs by reference (pointers); static locals persist; extern for cross-file.
+- inline hint and static functions (internal linkage) basics.
+
+Lesson 5 — Arrays and pointers (the heart of C)
+- Array = contiguous same-type elements; pointers hold addresses; *p deref; &x address.
+- Arrays decay to pointers: a[i] == *(a+i); pointer arithmetic steps by sizeof(T).
+- const correctness: const int* (pointee const) vs int* const (pointer const).
+- void* as generic pointer (e.g., malloc); pointer-to-pointer for argv/2D data.
+
+Lesson 6 — Strings and memory
+- String = char array ending with '\0'. char arr[] is modifiable; char* to literal is not.
+- Safe I/O: prefer fgets(buf, n, stdin); scanf("%s") stops at space.
+- strlen via pointer walk; strcpy/strncpy, strcat, strcmp; ensure capacity for '\0'.
+- Buffer safety: bound every copy; terminate manually if needed.
+
+Lesson 7 — Dynamic memory management (heap)
+- Stack vs heap; malloc/calloc/realloc/free; metadata around blocks; overruns corrupt state.
+- Common mistakes: leaks, double/free, use-after-free, too-small alloc, not checking NULL.
+- Tools: Valgrind, AddressSanitizer; fragmentation/alignment; track allocations as needed.
+
+Lesson 8 — Structures and memory layout
+- struct groups fields; access with . and ->; nested structs.
+- Alignment/padding: reorder largest→smallest to reduce padding; #pragma pack(1) trades size for potential perf hit.
+- Arrays of structs; prefer passing const struct* to avoid copies; cache-friendly layouts.
+
+Operator and specifier quick reference
+- %d int, %u unsigned, %ld long, %f float, %lf double, %c char, %s string, %p pointer.
+- Bitwise: & AND, | OR, ^ XOR, ~ NOT, << left shift, >> right shift.
+- ++x vs x++: pre increments then uses; post uses then increments.
+
+Safety and debugging habits
+- Build with warnings; initialize pointers to NULL; bound every copy; ensure '\0'.
+- Free exactly once; set pointer to NULL after free; add small tests; print addresses while learning.
+
+Performance instincts
+- Data locality (AoS vs SoA), alignment/padding, branch predictability, allocation patterns.
+
+What’s next (coming lessons)
+- File I/O & system calls; processes & threads; profiling & debugging; streaming/HLS context.
+
+Minimal practice anchors
+- Write: strlen, strcpy, reverse-string-in-place, swap via pointers.
+- Build: dynamic int array with malloc/realloc/free; fix a deliberate leak with ASan.
+- Model: struct with mixed types; reorder to reduce padding; print sizeof and explain.
+- Measure: time a loop; compare -O0 vs -O2.
+
+Examples you can run (mapped to main.c menu)
+- Build and run in PowerShell:
+  gcc '.\\main.c' -o '.\\main.exe' ; & '.\\main.exe'
+- 1) Hello — prints Hello, C!
+- 2) Types & sizes — shows sample values and sizeof.
+- 3) Control & loops — even/odd check and for-loop.
+- 4) Functions & swap — swap via pointers.
+- 5) Arrays & pointers — indexing vs pointer arithmetic.
+- 6) Strings & strlen — concat and custom strlen.
+- 7) Dynamic memory — malloc→realloc→free demo.
+- 8) Structs & layout — struct fields and sizeof.
+- 9) Factorial — your original interactive factorial (0–20).
+
+Extra snippets (paste into scratch or extend main.c)
+- Compilation pipeline:
+  gcc -E hello.c > step1.i
+  gcc -S hello.c
+  gcc -c hello.c
+  gcc hello.o -o hello
+- Address printing (Lesson 2): printf("Value=%d Address=%p\n", x, (void*)&x);
+- switch + break (Lesson 3): case 1: puts("Mon"); break; default: puts("Other");
+- Recursive factorial (L4): int fact(int n){ return n<=1 ? 1 : n*fact(n-1); }
+- Safe fgets (L6): fgets(buf, sizeof buf, stdin);
+- realloc pattern (L7): int *tmp=realloc(p,new_n*sizeof*p); if(tmp) p=tmp;
+- Padding demo (L8): struct A{char c;int i;}; struct B{int i;char c;};
+
+
+Per-lesson detailed notes (notes/)
+- See expanded explanations and more examples in:
+  - notes/lesson01.md — Getting Started with C
+  - notes/lesson02.md — Variables, Types, I/O, Operators
+  - notes/lesson03.md — Control Flow and Loops
+  - notes/lesson04.md — Functions, Scope, Call Stack
+  - notes/lesson05.md — Arrays and Pointers
+  - notes/lesson06.md — Strings and Memory
+  - notes/lesson07.md — Dynamic Memory Management
+  - notes/lesson08.md — Structures and Memory Layout
+
+Tip: Use the menu in `main.c` to run quick demos (1–9), and refer to notes/lessonXX.md for deeper explanations and additional examples.
+
+
+A human-friendly guide to C (mental models and recipes)
+
+Why learn C this way
+- C is small but sharp. You’ll learn faster by building strong mental models, then practicing tiny focused exercises.
+- Think in three layers: Values (data), Addresses (where), and Flow (when/how).
+
+The 80/20 of C
+- Values vs addresses: An int is a value; an int* is an address pointing to an int. You read memory via addresses.
+- Arrays vs pointers: An array is a contiguous block of values. A pointer can point to its first element. Arrays know their size only at compile time; pointers don’t.
+- Strings are byte arrays ending with a hidden '\0'. String bugs = forgot the '\0' or wrote past it.
+- Memory map (simplified):
+  - Code/text (your instructions)
+  - Globals/static (long-lived variables)
+  - Heap (malloc/free; you manage lifetime)
+  - Stack (function-local frames; auto lifetime)
+
+Pointer intuition (addresses made friendly)
+- Analogy: Think of memory as a long street of houses (bytes). An address is a house number. A pointer is a slip of paper with a house number written on it. Dereferencing the pointer means: go to that house and read/write what’s inside.
+- Pointer arithmetic moves by element size: p + 1 skips ahead by sizeof(*p) bytes.
+- Null pointer means “no house” — never dereference NULL.
+
+Strings without fear
+- A C string must have room for the terminator: char name[6] can hold "hello" (5 letters + '\0').
+- Safer copies: use strncpy/strncat carefully or, better, snprintf for formatting.
+- Always track capacity and current length. When in doubt, measure with strlen and check bounds before writing.
+
+Memory safety checklist (use before you run)
+- Bounds: Are all array/pointer writes within allocated size?
+- Lifetime: Is the memory still valid when accessed (not returned a pointer to a local var)?
+- Initialization: Are values initialized before use (no garbage reads)?
+- Ownership: Who frees this allocation? Exactly once. No double free, no leaks.
+- Errors: Did every malloc/realloc/fopen return get checked for NULL?
+
+Input/output sanity
+- scanf: Always check the return count. Prefer width limits: scanf("%31s", buf) for a 32-byte buffer.
+- fgets: Reads a whole line with a cap. Trim the trailing newline if present.
+- Printing: Prefer "%zu" for size_t; "%lld" or "%jd" for long long/ intmax_t.
+
+Common bugs decoded (symptom → cause → fix)
+- Crash on random line (segfault): Likely invalid pointer or out-of-bounds write.
+  - Fix: Add guards on indices, check for NULL, log sizes and addresses.
+- Weird numbers (nonsense outputs): Uninitialized variable.
+  - Fix: Initialize everything. For structs, use {0} to zero-init.
+- Infinite loop: Loop condition never changes or compares wrong value.
+  - Fix: Print loop variables each iteration to see progress.
+- Memory leak: Forgot to free, or lost the only pointer to an allocation.
+  - Fix: Define ownership rules; free in symmetric code paths (finally-like blocks).
+
+Debugging recipes (step-by-step)
+- When something looks wrong:
+  1) Print values at boundaries (indices 0, n-1) and sizes before the loop.
+  2) Add assertions on assumptions (e.g., assert(n > 0 && n <= cap)).
+  3) Compile with warnings: -Wall -Wextra -Wpedantic; fix all warnings.
+  4) If still failing, minimize: create the smallest input that reproduces the bug.
+
+Performance instincts (without premature optimization)
+- Avoid repeated allocations in hot loops; grow buffers geometrically (x1.5 or x2).
+- Keep data contiguous to be cache-friendly (arrays of structs > scattered nodes).
+- Measure, don’t guess. Add timers around suspicious blocks.
+
+Practice that sticks
+- Micro-katas (10–20 minutes each):
+  - Reverse an array in-place; verify with even/odd lengths.
+  - Implement safe_strcpy(dest, cap, src) returning bytes written.
+  - Parse a CSV line into fields without allocations.
+- Mini projects (2–4 hours):
+  - Dynamic string builder (vector<char>) with push_back, reserve, insert.
+  - Tiny key-value store (open addressing hash map) with load factor growth.
+  - Log file analyzer: read a file, aggregate counts, and print top-N.
+
+Frequently asked questions
+- Why does sizeof(arr) change after passing to a function? Arrays decay to pointers; you lose the length info. Pass length explicitly.
+- Why does my string print garbage? Possibly missing '\0' or buffer too small.
+- Can I return a pointer to a local variable? No. That memory dies when the function returns. Use static or heap.
+- Is realloc safe? Yes if you use a temporary: void* tmp = realloc(p, n); if(tmp) p = tmp; else handle failure;.
+
+Tiny glossary
+- Undefined behavior (UB): The standard doesn’t say what happens. Anything can occur (crash, no crash, wrong results). Avoid by following rules (bounds, lifetimes, types).
+- Sequence point / evaluation order: Don’t rely on left-to-right in expressions with side effects (e.g., i = i++ + ++i is UB).
+- Alignment/padding: The compiler may insert gaps in structs so members align to natural boundaries. Order members to reduce padding.
+
+Where to look next in this repo
+- `main.c` — run the menu demos to feel each concept.
+- `notes/lesson01.md` … `notes/lesson08.md` — slower, deeper dives with more examples and exercises.
+
+Detailed lessons and examples
+
+Lesson 1 — Program anatomy and compilation (deep dive)
+- Concept: A C program is compiled ahead-of-time; there’s no VM or GC. You manage memory and performance.
+- Minimal program:
+  ```c
+  #include <stdio.h>
+  int main(void) {
+      printf("Hello, World!\n");
+      return 0;
+  }
+  ```
+- Build and run (PowerShell):
+  ```powershell
+  gcc .\hello.c -o .\hello.exe ; & .\hello.exe
+  ```
+- Compilation stages you can inspect:
+  - Preprocess: `gcc -E hello.c > hello.i`
+  - Compile: `gcc -S hello.c`
+  - Assemble: `gcc -c hello.c`
+  - Link: `gcc hello.o -o hello.exe`
+- Under the hood: the OS maps your code into memory, sets up a stack, calls a runtime entry point that eventually calls `main`.
+
+Lesson 2 — Variables, types, I/O, and operators (with code)
+- Print values, addresses, and sizes:
+  ```c
+  #include <stdio.h>
+  int main(void){
+      int i = 42; float f = 3.14f; double d = 2.71828; char c = 'A';
+      printf("i=%d f=%.2f d=%.5f c=%c\n", i, f, d, c);
+      printf("&i=%p sizeof(int)=%zu sizeof(double)=%zu\n", (void*)&i, sizeof(int), sizeof(double));
+      return 0;
+  }
+  ```
+- Safe input basics (integers):
+  ```c
+  int x; if (scanf("%d", &x) != 1) { fprintf(stderr, "bad input\n"); return 1; }
+  ```
+- Bitwise demo:
+  ```c
+  unsigned x = 5;           // 0101
+  printf("x<<1=%u x>>1=%u x|3=%u x&3=%u x^3=%u\n", x<<1, x>>1, x|3, x&3, x^3);
+  ```
+- Pitfalls: integer division truncation (`7/2==3`), format specifier mismatches, uninitialized variables.
+
+Lesson 3 — Control flow and loops (with code)
+- if / else-if / else and switch:
+  ```c
+  int temp = 35;
+  if (temp > 40) puts("Hot"); else if (temp >= 30) puts("Warm"); else puts("Cool");
+  int day = 3;
+  switch(day){ case 1: puts("Mon"); break; case 2: puts("Tue"); break; case 3: puts("Wed"); break; default: puts("Other"); }
+  ```
+- Loops and controls:
+  ```c
+  for (int i=0;i<5;++i){ if(i==3) continue; printf("%d ", i); if(i==4) break; }
+  // while and do-while
+  int j=0; while(j<3){ printf("%d ", j++); }
+  int k=0; do { printf("%d ", k++); } while(k<1);
+  ```
+- Practice: even/odd checker; sum 1..N; multiplication table. Performance note: branches become jumps; predictability matters.
+
+Lesson 4 — Functions, scope, stack frames (with code)
+- Prototype vs definition vs call:
+  ```c
+  int add(int, int);            // prototype
+  int add(int a,int b){ return a+b; } // definition
+  int s = add(3,4);             // call
+  ```
+- Pass-by-value vs by-pointer:
+  ```c
+  void set10_val(int x){ x=10; }
+  void set10_ptr(int* x){ *x=10; }
+  int a=5; set10_val(a); // a==5
+  set10_ptr(&a);         // a==10
+  ```
+- Static local and extern:
+  ```c
+  void counter(void){ static int n=0; printf("%d\n", ++n); } // keeps value across calls
+  ```
+- Recursion example (factorial): iterative is safer for large n; recursion depth is limited.
+
+Lesson 5 — Arrays and pointers (deep dive)
+- Array and pointer equivalence:
+  ```c
+  int a[5]={10,20,30,40,50}; int *p=a; // &a[0]
+  printf("a[2]=%d *(p+2)=%d\n", a[2], *(p+2));
+  ```
+- Reverse an array in place (two-pointer technique):
+  ```c
+  void reverse(int *arr,int n){ int *l=arr, *r=arr+n-1; while(l<r){ int t=*l; *l++=*r; *r--=t; } }
+  ```
+- Pointer-to-pointer and 2D:
+  ```c
+  int x=5; int *px=&x; int **pp=&px; printf("**pp=%d\n", **pp);
+  ```
+- Pitfalls: out-of-bounds, uninitialized pointers, pointer arithmetic on wrong base type.
+
+Lesson 6 — Strings and memory (practical)
+- Implement strlen and strcpy safely:
+  ```c
+  size_t my_strlen(const char *s){ const char *t=s; while(*t) ++t; return (size_t)(t-s); }
+  void my_strcpy(char *dst,const char *src){ while((*dst++ = *src++)); }
+  ```
+- Safe input with fgets and newline trim:
+  ```c
+  char buf[64];
+  if (fgets(buf, sizeof buf, stdin)) {
+      size_t n = my_strlen(buf); if (n && buf[n-1]=='\n') buf[n-1]='\0';
+  }
+  ```
+- Dynamic concat:
+  ```c
+  char *a = malloc(16), *b = malloc(16);
+  strcpy(a, "Hello"); strcpy(b, "World");
+  size_t na=my_strlen(a), nb=my_strlen(b);
+  char *c = malloc(na+1+nb+1);
+  sprintf(c, "%s %s", a, b);
+  printf("%s\n", c);
+  free(a); free(b); free(c);
+  ```
+- Pitfalls: writing to string literals; missing space for '\0'; unchecked copies.
+
+Lesson 7 — Dynamic memory (with patterns)
+- Growable array with realloc (safe pattern):
+  ```c
+  int *arr=NULL; size_t n=0, cap=0;
+  for (int i=0;i<10;++i){
+      if (n==cap){ size_t newcap = cap?cap*2:4; int *tmp = realloc(arr, newcap*sizeof *arr); if(!tmp){free(arr); return 1;} arr=tmp; cap=newcap; }
+      arr[n++] = i*i;
+  }
+  for (size_t i=0;i<n;++i) printf("%d ", arr[i]);
+  free(arr);
+  ```
+- Dynamic 2D matrix:
+  ```c
+  int rows=3, cols=4; int **m = malloc(rows*sizeof *m);
+  for(int r=0;r<rows;++r){ m[r]=malloc(cols*sizeof *m[r]); }
+  // use m[r][c]
+  for(int r=0;r<rows;++r) free(m[r]); free(m);
+  ```
+- Tools: compile with `-fsanitize=address -g` to catch OOB and use-after-free.
+
+Lesson 8 — Structures and memory layout (hands-on)
+- Define, initialize, and pass by pointer:
+  ```c
+  struct Student { int id; float gpa; char name[16]; };
+  void print_student(const struct Student *s){ printf("%d %.2f %s\n", s->id, s->gpa, s->name); }
+  struct Student s={1,3.9f,"Ujwal"}; print_student(&s);
+  ```
+- Padding and reordering:
+  ```c
+  struct A { char c; int i; char d; };    // likely bigger due to padding
+  struct B { int i; char c; char d; };    // tighter layout
+  printf("A=%zu B=%zu\n", sizeof(struct A), sizeof(struct B));
+  ```
+- Dynamic allocation:
+  ```c
+  struct Student *p = malloc(sizeof *p);
+  if(p){ p->id=2; p->gpa=3.7f; strcpy(p->name, "Arpita"); print_student(p); free(p); }
+  ```
+- Tip: prefer passing `const struct *` to avoid copying large structs; layout affects cache performance.
+
+Practice sets (quick drills)
+- L1: Produce `.i`, `.s`, `.o` for a tiny program; skim each.
+- L2: Print sizes/addresses of several types; write a safe calculator with scanf validation.
+- L3: Build a menu using switch; generate a multiplication table.
+- L4: Implement swap by value and by pointer; recursive vs iterative factorial.
+- L5: Reverse an array with two pointers; compute average using pointers only.
+- L6: Implement `strncpy`-style bounded copy and test off-by-one cases.
+- L7: Implement a small vector (push/pop, dynamic growth) and fuzz test sizes.
+- L8: Design a compact struct; explain its size and padding; compare two layouts.
